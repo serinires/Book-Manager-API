@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Setter
 @Getter
-@Table(name = "books")
+@Table(name = "book")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookEntity {
     @Id
@@ -31,17 +31,18 @@ public class BookEntity {
 
     private LocalDate publishedDate;
 
-    public BookEntity(String title, String author, String isbn) {
+    public BookEntity(String title, String author, String isbn, LocalDate publishedDate) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
-        this.publishedDate = LocalDate.now();
+        this.publishedDate = publishedDate;
     }
 
     public void update(BookRequestDto bookRequestDto) {
         this.title = bookRequestDto.getTitle();
         this.author = bookRequestDto.getAuthor();
         this.isbn = bookRequestDto.getIsbn();
+        this.publishedDate = bookRequestDto.getPublishedDate();
     }
 
 }

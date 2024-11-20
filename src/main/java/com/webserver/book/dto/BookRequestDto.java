@@ -1,6 +1,7 @@
 package com.webserver.book.dto;
 
 import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 public class BookRequestDto {
@@ -8,5 +9,7 @@ public class BookRequestDto {
     private String title;
     private String author;
     private String isbn;
-    private String publishedDate;
+    private LocalDate publishedDate;
 }
+
+

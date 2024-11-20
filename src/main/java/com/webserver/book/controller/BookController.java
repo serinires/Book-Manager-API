@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +27,12 @@ public class BookController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         BookResponseDto result = bookService.getById(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        List<BookResponseDto> result = bookService.getAll();
         return ResponseEntity.ok(result);
     }
 

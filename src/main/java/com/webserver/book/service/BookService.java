@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class BookService {
         String title = requestDto.getTitle();
         String author = requestDto.getAuthor();
         String isbn = requestDto.getIsbn();
-        BookEntity bookEntity = new BookEntity(title,author,isbn);
+        LocalDate publishedDate = requestDto.getPublishedDate();
+        BookEntity bookEntity = new BookEntity(title,author,isbn,publishedDate);
         BookEntity savedEntity = bookEntityRepository.save(bookEntity);
         return savedEntity.getId();
     }
@@ -30,9 +32,19 @@ public class BookService {
     public BookResponseDto getById(Long id) {
         BookEntity bookEntity = bookEntityRepository.findById(id).orElse(null);
         return new BookResponseDto(bookEntity.getId(),bookEntity.getTitle(),bookEntity.getAuthor(),
-                bookEntity.getIsbn(),bookEntity.getPublishedDate().toString());
+                bookEntity.getIsbn(),bookEntity.getPublishedDate());
     }
 
+    public List<BookResponseDto> getAll() {
+        List<BookEntity> all = bookEntityRepository.findAll();
+        List<BookResponseDto> bookResponseDtoList = new ArrayList<>();
+        for (BookEntity bookEntity : all) {
+            BookResponseDto bookResponseDto = new BookResponseDto(bookEntity.getId(), bookEntity.getTitle(), bookEntity.getAuthor(),
+                    bookEntity.getIsbn(), bookEntity.getPublishedDate());
+            bookResponseDtoList.add(bookResponseDto);
+        }
+        return bookResponseDtoList;
+    }
 
     public void update(Long id, BookRequestDto requestDto) {
         BookEntity bookEntity = bookEntityRepository.findById(id).get();
